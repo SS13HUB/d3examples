@@ -7,6 +7,7 @@ Cached list:
 |:-|:-|
 | **> [./static/bootstrap/3.3.6/css/](./bootstrap/3.3.6/css/)** |
 | [bootstrap.min.css](./bootstrap/3.3.6/css/bootstrap.min.css) | http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css |
+| [bootstrap.min.css.map](./bootstrap/3.3.6/css/bootstrap.min.css.map) | http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css.map |
 | **> [./static/js/d3/](./d3/)** |
 | [d3.v1.js](./d3/d3.v1.js) | https://d3js.org/d3.v1.js |
 | [d3.v2.js](./d3/d3.v2.js) | https://d3js.org/d3.v2.js |

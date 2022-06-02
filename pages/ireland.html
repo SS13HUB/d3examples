@@ -2,7 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="shortcut icon" type="image/x-icon" href="./../favicon.ico">
+    <!-- <link rel="stylesheet" href="./../static/bootstrap/3.3.6/css/bootstrap.min.css"> -->
+    <script type="text/javascript" src="./../static/js/d3/d3.v2.js"></script>
+
+    <title>Irish Choropleth Example</title>
+
     <style>
         svg {
             background: #fff;
@@ -23,11 +29,34 @@
         .q7-9{fill:rgb(0,109,44)}
         .q8-9{fill:rgb(0,68,27)}
     </style>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <title>Irish Choropleth Example</title>
-    <script type="text/javascript" src="./../static/js/d3/d3.v2.js"></script>
 </head>
+
 <body>
+	<header>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-2">
+					<img src="./../static/d3logo.png">
+				</div>
+				<div class="col-md-10">
+					<h1 class="logo">D3 Examples</h1>
+					<h4>Richard Dalton</h4>
+					<div class="btn-group btn-group-md" role="group" aria-label="...">
+						<a href="./../index.html" class="btn btn-default" role="button">Home</a>
+						<a href="./svg.html" class="btn btn-default" role="button">SVG</a>
+						<a href="./barChart.html" class="btn btn-default" role="button">Bar</a>
+						<a href="./pieChart.html" class="btn btn-default" role="button">Pie</a>
+						<a href="./bubbleChart.html" class="btn btn-default" role="button">Bubble</a>
+						<a href="./force.html" class="btn btn-default" role="button">Force</a>
+						<a href="./globe.html" class="btn btn-default" role="button">Globe</a>
+						<a href="./gesu-teaching.html" class="btn btn-default" role="button">gesu-teaching</a>
+						<a href="http://d3js.org" class="btn btn-default" role="button">D3.js</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
 	<div id="chart"></div>
 	<script type="text/javascript" src="./../static/js/choropleth.js"></script>
 </body>
