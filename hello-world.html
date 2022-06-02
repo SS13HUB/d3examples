@@ -24,10 +24,10 @@
 					<a href="barChart.html" class="btn btn-default" role="button">Bar</a>
 					<a href="pieChart.html" class="btn btn-default" role="button">Pie</a>
 					<a href="bubbleChart.html" class="btn btn-default" role="button">Bubble</a>
-                    <a href="force.html" class="btn btn-default" role="button">Force</a>
-                    <a href="globe.html" class="btn btn-default" role="button">Globe</a>
-                    <a href="hello-world.html" class="btn btn-default" role="button">hello-world</a>
-                    <a href="https://d3js.org" class="btn btn-default" role="button">D3.js</a>
+					<a href="force.html" class="btn btn-default" role="button">Force</a>
+					<a href="globe.html" class="btn btn-default" role="button">Globe</a>
+					<a href="hello-world.html" class="btn btn-default" role="button">hello-world</a>
+					<a href="https://d3js.org" class="btn btn-default" role="button">D3.js</a>
 				</div>
 			</div>
 		</div>
@@ -36,27 +36,24 @@
 
 
 <div class="container">
-	<h3>Force Chart</h3>
-	<p>We can model relationships between entities using a Force Chart. Use SVG to draw the
-    nodes and edges. The D3 Force layout provides a means of animating and interacting with the chart.</p>
-	<p>This example contains two data sets. 'People', which could be players in a game, and 'Killed' which captures
-    the details of which players kill other players.</p>
+	<h3>intro_d3js</h3>
+	<p>https://d3-graph-gallery.com/intro_d3js.html</p>
 
 	<div class="col-md-6">
 		<div id="draw_here"></div>
 	</div>
 	<div class="col-md-6">
-        <!-- Add a svg shape. Note that the 'target' class is attributed to the circle -->
-        <svg> 
-          <circle class="target" style="fill: #69b3a2" stroke="black" cx=50 cy=50 r=40></circle>
-        </svg>
+		<!-- Add a svg shape. Note that the 'target' class is attributed to the circle -->
+		<svg> 
+			<circle class="target" style="fill: #69b3a2" stroke="black" cx=50 cy=50 r=40></circle>
+		</svg>
 	</div>
 </div>
 
 <script type="text/javascript">
-d3
-  .select(".target")  // select the elements that have the class 'target'
-  .style("stroke-width", 8) // change their style: stroke width is not equal to 8 pixels
+	d3
+		.select(".target")  // select the elements that have the class 'target'
+		.style("stroke-width", 8) // change their style: stroke width is not equal to 8 pixels
 </script>
 
 </body>
