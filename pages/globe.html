@@ -176,7 +176,7 @@
 
 
     // REQUEST DATA
-    d3.json('./static/data/ne_110m_land.json', function(err, json) {
+    d3.json('./../static/data/ne_110m_land.json', function(err, json) {
         geojson = json;
         window.setInterval(update, 100);
     })
