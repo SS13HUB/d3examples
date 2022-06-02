@@ -14,7 +14,7 @@ var counties = svg.append("g")
     .attr("id", "ireland");
 
 //Irish geoJSON based on https://gist.github.com/2183412
-d3.json("https://gist.githubusercontent.com/aerrity/4338818/raw/074bc4097767374c7194bc1b8fed5f9ce90b4b9d/ireland.json", function(json) {
+d3.json("./static/data/ireland.json", function(json) {
     counties.selectAll("path")
         .data(json.features)
         .enter().append("path")
