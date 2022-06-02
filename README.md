@@ -1,11 +1,11 @@
 
 <p align="center">
 	<h2 align="center">
-		<a href=".">
+		<a href="https://github.com/SS13HUB/d3examples">
 			<img alt="alt_text" src="./static/d3logo.png?raw=true" />
 		</a>
 		<br />
-		<a href=".">D3.js Examples</a>
+		<a href="https://github.com/SS13HUB/d3examples">D3.js Examples</a>
 	</h2>
 	<p align="center">
 		This repository is a sandbox for trying out ideas using D3.js and maintaining a suite of examples.
@@ -20,4 +20,4 @@ No installation is required, the site is hosted on GitHub Pages and a live demo 
 
 ---
 
-[here]: ./deployments
+[here]: https://ss13hub.github.io/d3examples/
