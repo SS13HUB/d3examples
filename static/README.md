@@ -1,7 +1,19 @@
 
-# Cache
+### Static cache
 
-Cached list:
+---
+
+This folder contains static cache.
+
+Some of it - it's local development, some of it - copy of polupar libraries, just in case *plus* for independent CPU and connection performance.
+
+Below you can learn about what was cached.
+
+---
+
+##### Cached files list:
+
+Note: Symbol "." stands for root directory of git project, not current directory.
 
 | File | Source |
 |:-|:-|
@@ -28,6 +40,8 @@ Cached list:
 ---
 
 <!--
+/// Node.js code for generating D3 lib files' names for different versions, for table above: ///
+
 for (let i = 1; i < 8; i++) {
 	console.log("| [d3.v" + i + ".js](./d3/d3.v" + i + ".js) | https://d3js.org/d3.v" + i + ".js |");
 }
