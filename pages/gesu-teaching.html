@@ -54,21 +54,22 @@
 		</svg>
 		<h3>The coordinate system</h3>
 		<hr />
-		<svg id="dataviz_area" height=200 width=450></svg>
-		<svg id="viz_area" height=200 width=450></svg>
+		<svg id="dataviz_area1" height=200 width=450></svg>
+		<svg id="dataviz_area2" height=200 width=450></svg>
+		<svg id="dataviz_area3" height=200 width=450></svg>
 		<hr />
 	</div>
 </div>
 
 <script type="text/javascript">
-	// First html document
+	/// First html document
 	d3
-		.select(".target1")  // select the elements that have the class 'target'
+		.select(".target1") // select the elements that have the class 'target'
 		.style("stroke-width", 8); // change their style: stroke width is not equal to 8 pixels
 
 
-	// The coordinate system
-	var svg = d3.select("#dataviz_area");
+	/// The coordinate system
+	var svg = d3.select("#dataviz_area1");
 	svg.append("circle")
 		.attr("cx", 2)
 		.attr("cy", 2)
@@ -86,15 +87,15 @@
 		.style("fill", "green");
 
 
-	// From data to pixel: Scales
+	/// From data to pixel: Scales
 	// Select the svg area
-	var svg = d3.select("#viz_area");
+	var svg = d3.select("#dataviz_area2");
 
 	// Create a scale: transform value in pixel
 	var x = d3.scaleLinear()
-		.domain([0, 100])         // This is the min and the max of the data: 0 to 100 if percentages
-		.range([0, 400]);       // This is the corresponding value I want in Pixel
-	// Try console.log( x(25) ) to see what this x function does.
+		.domain([0, 100]) // This is the min and the max of the data: 0 to 100 if percentages
+		.range([0, 500]); // This is the corresponding value I want in Pixel
+	console.log('x:', x(25)); // Try to see what this x function does.
 
 	// Add 3 dots for 0, 50 and 100%
 	svg.append("circle")

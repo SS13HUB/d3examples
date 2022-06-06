@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- https://gist.github.com/mbostock/1062288 -->
+<!-- https://stackoverflow.com/q/21585372/ -->
+
+<style>
+
+.node {
+	cursor: pointer;
+	stroke: #3182bd;
+	stroke-width: 1.5px;
+}
+
+.link {
+	fill: none;
+	stroke: #9ecae1;
+	stroke-width: 1.5px;
+}
+
+</style>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" type="image/x-icon" href="./../favicon.ico">
+	<link rel="stylesheet" href="./../static/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script type="text/javascript" src="./../static/js/d3/d3.v3.js"></script>
+	<!-- <script src="//d3js.org/d3.v3.min.js"></script> -->
+
+	<title>Force-Directed Graph</title>
+</head>
+<body>
+
+<header>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2">
+				<img src="./../static/d3logo.png">
+			</div>
+			<div class="col-md-10">
+				<h1 class="logo">D3 Examples</h1>
+				<h4>Richard Dalton</h4>
+				<div class="btn-group btn-group-md" role="group" aria-label="...">
+					<a href="./../index.html" class="btn btn-default" role="button">Home</a>
+					<a href="./svg.html" class="btn btn-default" role="button">SVG</a>
+					<a href="./barChart.html" class="btn btn-default" role="button">Bar</a>
+					<a href="./pieChart.html" class="btn btn-default" role="button">Pie</a>
+					<a href="./bubbleChart.html" class="btn btn-default" role="button">Bubble</a>
+					<a href="./force.html" class="btn btn-default" role="button">Force</a>
+					<a href="./globe.html" class="btn btn-default" role="button">Globe</a>
+					<a href="./gesu-teaching.html" class="btn btn-default" role="button">gesu-teaching</a>
+					<a href="http://d3js.org" class="btn btn-default" role="button">D3.js</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+<body>
+<script>
+
+var width = 960,
+	height = 500,
+	root;
+
+var force = d3.layout.force()
+	.size([width, height])
+	.on("tick", tick);
+
+var svg = d3.select("body").append("svg")
+	.attr("width", width)
+	.attr("height", height);
+
+var link = svg.selectAll(".link"),
+		node = svg.selectAll(".node");
+
+		//'./../static/data/readme.json'
+d3.json('https://gist.githubusercontent.com/mbostock/1062288/raw/e061c29ebd3071ddd87129f8bec359fde05b829e/readme.json', function(error, json) {
+	if (error) throw error;
+
+	root = json;
+	update();
+});
+
+function update() {
+	var nodes = flatten(root),
+		links = d3.layout.tree().links(nodes);
+
+	// Restart the force layout.
+	force
+		.nodes(nodes)
+		.links(links)
+		.start();
+
+	// Update the links…
+	link = link.data(links, function(d) { return d.target.id; });
+
+	// Exit any old links.
+	link.exit().remove();
+
+	// Enter any new links.
+	link.enter().insert("line", ".node")
+		.attr("class", "link")
+		.attr("x1", function(d) { return d.source.x; })
+		.attr("y1", function(d) { return d.source.y; })
+		.attr("x2", function(d) { return d.target.x; })
+		.attr("y2", function(d) { return d.target.y; });
+
+	// Update the nodes…
+	node = node.data(nodes, function(d) { return d.id; }).style("fill", color);
+
+	// Exit any old nodes.
+	node.exit().remove();
+
+	// Enter any new nodes.
+	node.enter().append("circle")
+		.attr("class", "node")
+		.attr("cx", function(d) { return d.x; })
+		.attr("cy", function(d) { return d.y; })
+		.attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; })
+		.style("fill", color)
+		.on("click", click)
+		.call(force.drag);
+}
+
+function tick() {
+	link.attr("x1", function(d) { return d.source.x; })
+		.attr("y1", function(d) { return d.source.y; })
+		.attr("x2", function(d) { return d.target.x; })
+		.attr("y2", function(d) { return d.target.y; });
+
+	node.attr("cx", function(d) { return d.x; })
+		.attr("cy", function(d) { return d.y; });
+}
+
+// Color leaf nodes orange, and packages white or blue.
+function color(d) {
+	return d._children ? "#3182bd" : d.children ? "#c6dbef" : "#fd8d3c";
+}
+
+// Toggle children on click.
+function click(d) {
+	if (!d3.event.defaultPrevented) {
+		if (d.children) {
+		d._children = d.children;
+		d.children = null;
+		} else {
+		d.children = d._children;
+		d._children = null;
+		}
+		update();
+	}
+}
+
+// Returns a list of all nodes under the root.
+function flatten(root) {
+	var nodes = [], i = 0;
+
+	function recurse(node) {
+		if (node.children) node.children.forEach(recurse);
+		if (!node.id) node.id = ++i;
+		nodes.push(node);
+	}
+
+	recurse(root);
+	return nodes;
+}
+
+</script>
