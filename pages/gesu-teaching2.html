@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="shortcut icon" type="image/x-icon" href="./../favicon.ico">
+	<link rel="stylesheet" href="./../static/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script type="text/javascript" src="./../static/js/d3/d3.v4.js"></script>
+
+	<title>basic radial dendrogram</title>
+</head>
+<body>
+
+<header>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2">
+				<img src="./../static/d3logo.png">
+			</div>
+			<div class="col-md-10">
+				<h1 class="logo">D3 Examples</h1>
+				<h4>Richard Dalton</h4>
+				<div class="btn-group btn-group-md" role="group" aria-label="...">
+					<a href="./../index.html" class="btn btn-default" role="button">Home</a>
+					<a href="./svg.html" class="btn btn-default" role="button">SVG</a>
+					<a href="./barChart.html" class="btn btn-default" role="button">Bar</a>
+					<a href="./pieChart.html" class="btn btn-default" role="button">Pie</a>
+					<a href="./bubbleChart.html" class="btn btn-default" role="button">Bubble</a>
+					<a href="./force.html" class="btn btn-default" role="button">Force</a>
+					<a href="./globe.html" class="btn btn-default" role="button">Globe</a>
+					<a href="./gesu-teaching.html" class="btn btn-default" role="button">gesu-teaching</a>
+					<a href="http://d3js.org" class="btn btn-default" role="button">D3.js</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+
+<div class="container">
+	<h3>intro_d3js</h3>
+	<p>
+		<a href="https://d3-graph-gallery.com/graph/dendrogram_radial_basic.html">https://d3-graph-gallery.com/graph/dendrogram_radial_basic.html</a>
+	</p>
+
+	<hr />
+
+	<div class="col-md-6">
+		<h3>Most basic radial dendrogram in d3.js</h3>
+		<hr />
+		<svg id="dataviz_area1" height=460 width=460></svg>
+		<hr />
+	</div>
+</div>
+
+<script type="text/javascript">
+	// set the dimensions and margins of the graph
+	var width = 460
+	var height = 460
+	var radius = width / 2 // radius of the dendrogram
+
+	// append the svg object to the body of the page
+	var svg = d3.select("#dataviz_area1")
+		.append("svg")
+		.attr("width", width)
+		.attr("height", height)
+		.append("g")
+		.attr("transform", "translate(" + radius + "," + radius + ")");
+
+	// read json data
+	//'./../static/data/data_dendrogram.json'
+	d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_dendrogram.json", function(data) {
+		// Create the cluster layout:
+		var cluster = d3.cluster()
+			.size([360, radius - 60]);	// 360 means whole circle. radius - 60 means 60 px of margin around dendrogram
+
+		// Give the data to this cluster layout:
+		var root = d3.hierarchy(data, function(d) {
+			return d.children;
+		});
+		cluster(root);
+
+		// Features of the links between nodes:
+		var linksGenerator = d3.linkRadial()
+			.angle(function(d) { return d.x / 180 * Math.PI; })
+			.radius(function(d) { return d.y; });
+
+		// Add the links between nodes:
+		svg.selectAll('path')
+			.data(root.links())
+			.enter()
+			.append('path')
+			.attr("d", linksGenerator)
+			.style("fill", 'none')
+			.attr("stroke", '#ccc')
+
+
+		// Add a circle for each node.
+		var nodes = svg.selectAll("g")
+			.data(root.descendants())
+			.enter()
+			.append("g")
+			.attr("transform", function(d) {
+				return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
+			})
+			.append("circle")
+			.attr("r", 7)
+			.style("fill", "#69b3a2")
+			.attr("stroke", "black")
+			.style("stroke-width", 2);
+
+
+		//
+		var text = svg.selectAll("g").selectAll("text")
+			.data(root)
+			.enter().append("text")
+			.attr("x", 8)
+			.attr("y", ".31em")
+			.text(function(d) { return d.name; });
+		//
+		console.log(data);
+
+		/*
+		// https://stackoverflow.com/q/10841442/8175291
+		var linkg = vis.selectAll("g.link")
+			.data(cluster.links(nodes))
+			.enter().append("g")
+			.attr("class", "link");
+
+		linkg.append("path")
+			.attr("class", "link")
+			.attr("d", diagonal);
+
+		linkg.append("text")
+			.attr("x", function(d) { return (d.source.y + d.target.y) / 2; })
+			.attr("y", function(d) { return (d.source.x + d.target.x) / 2; })
+			.attr("text-anchor", "middle")
+			.text(function(d) {
+				return "edgeLabel";
+			}); */
+
+	})
+
+</script>
+
+</body>
+</html>

@@ -72,9 +72,9 @@ var svg = d3.select("body").append("svg")
 	.attr("height", height);
 
 var link = svg.selectAll(".link"),
-		node = svg.selectAll(".node");
+	node = svg.selectAll(".node");
 
-		//'./../static/data/readme.json'
+	//'./../static/data/readme.json'
 d3.json('https://gist.githubusercontent.com/mbostock/1062288/raw/e061c29ebd3071ddd87129f8bec359fde05b829e/readme.json', function(error, json) {
 	if (error) throw error;
 
