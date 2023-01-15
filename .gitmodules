@@ -1,0 +1,3 @@
+[submodule "submodules/ss13-projects-data"]
+	path = submodules/ss13-projects-data
+	url = https://github.com/SS13HUB/ss13-projects-data
