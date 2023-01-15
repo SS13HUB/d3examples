@@ -35,19 +35,46 @@
 	<svg id="d3js_landing_area2" height=200 width=450></svg>
 	<svg id="d3js_landing_area3" height=200 width=450></svg>
 	<hr>
+	<div id="div"></div>
 </body>
 
 <script type="text/javascript">
 	//const d3 = require('d3');
 
 	/// https://youtu.be/bp2GF8XcJdY
-	const svg = d3.select("#d3js_landing_area1");
-	svg
+	//const svg1 = d3.select("#d3js_landing_area1");
+	d3.select("#d3js_landing_area1")
 		.append('circle')
 		.attr('cx', '50%')
 		.attr('cy', '50%')
 		.attr('r', 20)
 		.style('fill', 'green');
+	//const svg2 = d3.select("#d3js_landing_area2");
+
+	const rides = [
+		{ name: '1', speed: 23 },
+		{ name: '2', speed: 11 },
+		{ name: '3', speed: 42 },
+		{ name: '4', speed: 99 }
+	];
+
+	d3.select("#d3js_landing_area2")
+		.selectAll()
+		.data(rides)
+		//.data([0])
+		.enter()
+		//.append()
+		.exit();
+		//.html("appended");
+
+	var theData = [ 1, 2, 3 ];
+
+	var p = d3.select("body").selectAll("p")
+		.data(theData)
+		.enter()
+		.append("p")
+		.text("hello ");
+
 
 	/*
 	/// First html document
