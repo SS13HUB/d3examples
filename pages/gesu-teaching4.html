@@ -26,6 +26,39 @@
 	stroke-width: 2px;
 }
 
+a:link {
+	color: green;
+	background-color: transparent;
+	text-decoration: none;
+	fill: blue;
+}
+
+a:visited {
+	color: pink;
+	background-color: transparent;
+	text-decoration: none;
+	fill: blue;
+}
+
+a:hover {
+	color: red;
+	background-color: transparent;
+	text-decoration: underline;
+	fill: blue;
+}
+
+a:active {
+	color: yellow;
+	background-color: transparent;
+	text-decoration: underline;
+}
+
+.mainsvg {
+	/*height: 320px;
+	width: 400px;*/
+	border: 5px dotted lightgray;
+}
+
 </style>
 
 <body>
@@ -50,13 +83,18 @@ var treeData =
 	};
 
 // set the dimensions and margins of the diagram
-var margin = {top: 40, right: 90, bottom: 50, left: 90},
-		width = 660 - margin.left - margin.right,
-		height = 500 - margin.top - margin.bottom;
+var margin = {
+		top: 40,
+		right: 90,
+		bottom: 50,
+		left: 90
+	},
+	width = 660 - margin.left - margin.right,
+	height = 500 - margin.top - margin.bottom;
 
 // declares a tree layout and assigns the size
 var treemap = d3.tree()
-		.size([width, height]);
+	.size([width, height]);
 
 //	assigns the data to a hierarchy using parent-child relationships
 var nodes = d3.hierarchy(treeData);
@@ -68,17 +106,18 @@ nodes = treemap(nodes);
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
 var svg = d3.select("body").append("svg")
-		.attr("width", width + margin.left + margin.right)
-		.attr("height", height + margin.top + margin.bottom)
-		//.attr(':xmlns:xlink', 'http://www.w3.org/1999/xlink'),
-		.attr('xmlns', 'http://www.w3.org/2000/svg'),
-	g = svg.append("g")
-		.attr("transform",
-			"translate(" + margin.left + "," + margin.top + ")");
+	.attr("width", width + margin.left + margin.right)
+	.attr("height", height + margin.top + margin.bottom)
+	.attr("class", "mainsvg")
+	//.attr(':xmlns:xlink', 'http://www.w3.org/1999/xlink'),
+	.attr('xmlns', 'http://www.w3.org/2000/svg'),
+g = svg.append("g")
+	.attr("transform",
+		"translate(" + margin.left + "," + margin.top + ")");
 
 // adds the links between the nodes
 var link = g.selectAll(".link")
-		.data( nodes.descendants().slice(1))
+	.data( nodes.descendants().slice(1))
 	.enter().append("path")
 		.attr("class", "link")
 		.attr("d", function(d) {
@@ -90,7 +129,7 @@ var link = g.selectAll(".link")
 
 // adds each node as a group
 var node = g.selectAll(".node")
-		.data(nodes.descendants())
+	.data(nodes.descendants())
 	.enter().append("g")
 		.attr("class", function(d) {
 			return "node" +
@@ -105,9 +144,7 @@ node.append("circle")
 // adds the text to the node
 node.append("a")
 	//.attr("style", "background-color: blue;") // width: 90%; height: 90%;
-	//.attr("xlink:href", "http://example.com/")
-	.attr('href', 'https://d3js.org')
-	.attr('xmlns', 'http://www.w3.org/1999/xhtml')
+	//.attr('href', 'https://d3js.org')
 	.attr('xlink:href', function(d) {
 		return d.properties_link || "https://d3js.org";
 	}).attr('target', '_blank')
