@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" content="utf-8" http-equiv="encoding">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" type="image/x-icon" href="./../favicon.ico">
+	<link rel="stylesheet" href="./../static/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script type="text/javascript" src="./../static/js/d3/d3.v4.js"></script>
+	<!-- Importing D3.js -->
+	<script src="https://d3js.org/d3.v5.min.js" charset="utf-8" defer></script>
+
+	<!-- Importing D3-Scale -->
+	<script src="https://d3js.org/d3-scale.v3.min.js"></script>
+
+	<!-- Connecting my JS file -->
+	<script src="app.js" defer></script>
+
+	<title>D3 Examples</title>
+</head>
+
+<body>
+	<hr>
+	<svg viewBox="0 0 320 50" xmlns="http://www.w3.org/2000/svg">
+		<rect width="30" height="30"></rect>
+		<circle cx="50" cy="15" r="15" ></circle>
+		<path d="M105, 0L105, 30L135, 30"></path>
+		<path d="M70, 0l0, 30l30, 0"></path>
+	</svg>
+	<hr>
+	<svg viewBox="0 0 320 50" xmlns="http://www.w3.org/2000/svg">
+		<path d="M0 20 C 0 0, 10 0, 50 20" stroke="black" fill="none"/>
+	</svg>
+	<hr>
+	<svg id="d3js_landing_area1" height=200 width=450></svg>
+	<svg id="d3js_landing_area2" height=200 width=450></svg>
+	<svg id="d3js_landing_area3" height=200 width=450></svg>
+	<hr>
+</body>
+
+<script type="text/javascript">
+	const d3 = require('d3');
+
+	/// https://youtu.be/bp2GF8XcJdY
+	const svg = d3.select("#d3js_landing_area1");
+	svg
+		.append('circle')
+		.attr('cx', '50%')
+		.attr('cy', '50%')
+		.attr('r', 20)
+		.style('fill', 'green');
+
+	/*
+	/// First html document
+	d3
+		.select(".target1") // select the elements that have the class 'target'
+		.style("stroke-width", 8); // change their style: stroke width is not equal to 8 pixels
+
+
+	/// The coordinate system
+	var svg = d3.select("#d3js_landing_area1");
+	svg.append("circle")
+		.attr("cx", 2)
+		.attr("cy", 2)
+		.attr("r", 40)
+		.style("fill", "blue");
+	svg.append("circle")
+		.attr("cx", 140)
+		.attr("cy", 70)
+		.attr("r", 40)
+		.style("fill", "red");
+	svg.append("circle")
+		.attr("cx", 300)
+		.attr("cy", 100)
+		.attr("r", 40)
+		.style("fill", "green");
+
+
+	/// From data to pixel: Scales
+	// Select the svg area
+	var svg = d3.select("#d3js_landing_area2");
+
+	// Create a scale: transform value in pixel
+	var x = d3.scaleLinear()
+		.domain([0, 100]) // This is the min and the max of the data: 0 to 100 if percentages
+		.range([0, 500]); // This is the corresponding value I want in Pixel
+	console.log('x:', x(25)); // Try to see what this x function does.
+
+	// Add 3 dots for 0, 50 and 100%
+	svg.append("circle")
+		.attr("cx", x(10))
+		.attr("cy", 100)
+		.attr("r", 40)
+		.style("fill", "blue");
+	svg.append("circle")
+		.attr("cx", x(50))
+		.attr("cy", 100)
+		.attr("r", 40)
+		.style("fill", "red");
+	svg.append("circle")
+		.attr("cx", x(100))
+		.attr("cy", 100)
+		.attr("r", 40)
+		.style("fill", "green");
+	*/
+</script>
+
+</html>
