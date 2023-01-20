@@ -6,6 +6,12 @@
 			"type": "shell",
 			"command": "cd \"${workspaceFolder}\\submodules\\ss13-projects-data\" && git submodule init && git submodule update && git status",
 			"problemMatcher": [],
+		},
+		{
+			"label": "Start http-server",
+			"type": "shell",
+			"command": "node .\\node_modules\\http-server\\bin\\http-server",
+			"problemMatcher": [],
 		}
 	]}
 
