@@ -69,20 +69,21 @@ a:active {
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script>
 
-var treeData =
-	{
-		"name": "Top Level",
-		"children": [
-			{
-		"name": "Level 2: A",
-				"children": [
-					{ "name": "Son of A" },
-					{ "name": "Daughter of A" }
-				]
-			},
-			{ "name": "Level 2: B" }
-		]
-	};
+var treeData ={
+	"name": "Top Level",
+	"children": [
+		{
+			"name": "Level 2: A",
+			"children": [
+				{ "name": "Son of A" },
+				{ "name": "Daughter of A" }
+			]
+		},
+		{
+			"name": "Level 2: B"
+		}
+	]
+};
 
 // set the dimensions and margins of the diagram
 var margin = {
@@ -93,66 +94,13 @@ var margin = {
 	},
 	width = 660 - margin.left - margin.right,
 	height = 500 - margin.top - margin.bottom;
+//
 
 // declares a tree layout and assigns the size
 var treemap = d3.tree()
 	.size([width, height]);
+//
 
-
-let loc = window.location.pathname; //process.cwd() ||
-let base_dir = loc.substring(0, loc.lastIndexOf('/'));
-console.log("base_dir", base_dir);
-const target_path = '/submodules/ss13-projects-data/data/json/000.json'; //'https://raw.githubusercontent.com/SS13HUB/ss13-projects-data/master/data/json/000.json'; //
-console.log("target_path", target_path);
-
-// https://stackoverflow.com/a/16991355/8175291
-var request = new XMLHttpRequest();
-request.open("GET", target_path, false);
-request.send(null)
-var my_JSON_object = JSON.parse(request.responseText);
-console.log("my_JSON_object", my_JSON_object);
-
-// https://stackoverflow.com/a/21608670/8175291
-// https://stackoverflow.com/a/51603491/8175291
-// https://stackoverflow.com/a/49769027/8175291
-// https://stackoverflow.com/a/56539512/8175291
-(async function() {
-	try {
-		// Code from your callback goes here...
-		console.log('ok1');
-		const jsonResponse = await d3.json(target_path, {credentials: 'same-origin'});
-		console.log('jsonResponse', jsonResponse);
-		//let data = jsonResponse.data;
-		//console.log('data', data);
-		console.log('ok2');
-	} catch(error) {
-		// Do some error handling.
-		console.error(error);
-		if (error) throw error;
-	}
-})();
-
-console.log('ok3');
-
-function read_files(target_path) {
-	let _out = {};
-	let _names = fs.readdirSync(target_path)
-		//.filter(item => !item.isDirectory())
-		.filter(name => path.extname(name) === target_ext);
-	if (local_debug) console.log('_names:', _names);
-
-	let _content = fs.readdirSync(target_path)
-		//.filter(item => !item.isDirectory())
-		.filter(name => path.extname(name) === target_ext)
-		.map(name => require(path.join(target_path, name)));
-	if (local_debug) console.log('_content:', _content);
-
-	for (let i = 0; i < _names.length; i++) {
-		const id = _names[i].split('.')[0];
-		_out[id] = _content[i];
-	}
-	return _out;
-}
 
 // assigns the data to a hierarchy using parent-child relationships
 var nodes = d3.hierarchy(treeData);
@@ -172,10 +120,11 @@ var svg = d3.select("body").append("svg")
 g = svg.append("g")
 	.attr("transform",
 		"translate(" + margin.left + "," + margin.top + ")");
+//
 
 // adds the links between the nodes
 var link = g.selectAll(".link")
-	.data( nodes.descendants().slice(1))
+	.data( nodes.descendants().slice(1) )
 	.enter().append("path")
 		.attr("class", "link")
 		.attr("d", function(d) {
@@ -184,6 +133,7 @@ var link = g.selectAll(".link")
 				+ " " + d.parent.x + "," +	(d.y + d.parent.y) / 2
 				+ " " + d.parent.x + "," + d.parent.y;
 			});
+//
 
 // adds each node as a group
 var node = g.selectAll(".node")
@@ -194,10 +144,12 @@ var node = g.selectAll(".node")
 				(d.children ? " node--internal" : " node--leaf"); })
 		.attr("transform", function(d) {
 			return "translate(" + d.x + "," + d.y + ")"; });
+//
 
 // adds the circle to the node
 node.append("circle")
 	.attr("r", 10);
+//
 
 // adds the text to the node
 node.append("a")
@@ -213,6 +165,163 @@ node.append("a")
 		.attr("y", function(d) { return d.children ? -20 : 20; })
 		.style("text-anchor", "middle")
 		.text(function(d) { return d.data.name; });
+//
+
+
+
+let loc = window.location.pathname; //process.cwd() ||
+let base_dir = loc.substring(0, loc.lastIndexOf('/'));
+console.log("base_dir", base_dir);
+const target_dir = '/submodules/ss13-projects-data/data/json/';
+const target_file1 = '0000';
+const target_path1 = target_dir + target_file1 + '.json';
+const target_file2 = '0001';
+const target_path2 = target_dir + target_file2 + '.json';
+console.log("target_path1", target_path1);
+
+// https://stackoverflow.com/a/16991355/8175291
+/*
+var request = new XMLHttpRequest();
+request.open("GET", target_path1, false);
+request.send(null)
+var my_JSON_object = JSON.parse(request.responseText);
+console.log("my_JSON_object", my_JSON_object);
+*/
+
+// https://stackoverflow.com/a/21608670/8175291
+// https://stackoverflow.com/a/51603491/8175291
+// https://stackoverflow.com/a/49769027/8175291
+// https://stackoverflow.com/a/56539512/8175291
+(async function() {
+	try {
+		// Code from your callback goes here...
+		console.log('ok1');
+		const jsonResponse1 = await d3.json(target_path1, {credentials: 'same-origin'});
+		console.log('jsonResponse1:\n', target_file1, jsonResponse1);
+		const jsonResponse2 = await d3.json(target_path2, {credentials: 'same-origin'});
+		console.log('jsonResponse2:\n', target_file2, jsonResponse2);
+		const totalJson = [jsonResponse1, jsonResponse2]; //Object.assign(); // jsonResponse1 + jsonResponse2;
+		console.log('totalJson:\n', totalJson);
+		//let data = jsonResponse.data;
+		//console.log('data', data);
+		console.log('ok2');
+
+		// assigns the data to a hierarchy using parent-child relationships
+		//var nodes2 = d3.hierarchy(totalJson);
+		//var nodes2 = d3.stratify()(totalJson);
+		var nodes2 = d3.stratify()([
+			{id: "0000", name: "Chaos"},
+			{id: "0001", parentId: "0000", name: "Gaia"},
+			{id: "0002", parentId: "0000", name: "Eros"},
+			{id: "0003", parentId: "0000", name: "Erebus"},
+			{id: "0004", parentId: "0000", name: "Tartarus"},
+			{id: "0005", parentId: "0001", name: "Mountains"},
+			{id: "0006", parentId: "0001", name: "Pontus"},
+			{id: "0007", parentId: "0001", name: "Uranus"}
+		]);
+		/*var nodes2 = d3.hierarchy(totalJson);
+		nodes2.children(function(d) {
+			return d.relations[0].name;
+		});*/
+		// https://stackoverflow.com/a/69235346/8175291
+		/*let nodes2 = d3.hierarchy(totalJson, function(d) {
+			if(typeof d == "object")
+			return Object.keys(d).map((k) => { console.log(d[k]); return d[k]; });
+		})*/
+
+		// maps the node data to the tree layout
+		nodes2 = treemap(nodes2);
+
+		// append the svg obgect to the body of the page
+		// appends a 'group' element to 'svg'
+		// moves the 'group' element to the top left margin
+		var svg = d3.select("body").append("svg")
+			.attr("width", width + margin.left + margin.right)
+			.attr("height", height + margin.top + margin.bottom)
+			.attr("class", "mainsvg")
+			//.attr(':xmlns:xlink', 'http://www.w3.org/1999/xlink'),
+			.attr('xmlns', 'http://www.w3.org/2000/svg'),
+		g = svg.append("g")
+			.attr("transform",
+				"translate(" + margin.left + "," + margin.top + ")");
+		//
+
+		// adds the links between the nodes
+		var link = g.selectAll(".link")
+			.data( nodes2.descendants().slice(1) )
+			.enter().append("path")
+				.attr("class", "link")
+				.attr("d", function(d) {
+					return "M" + d.x + "," + d.y
+						+ "C" + d.x + "," + (d.y + d.parent.y) / 2
+						+ " " + d.parent.x + "," +	(d.y + d.parent.y) / 2
+						+ " " + d.parent.x + "," + d.parent.y;
+					});
+		//
+
+		// adds each node as a group
+		var node2 = g.selectAll(".node")
+			.data( nodes2.descendants() )
+			.enter().append("g")
+				.attr("class", function(d) {
+					return "node" +
+						(d.children ? " node--internal" : " node--leaf"); })
+				.attr("transform", function(d) {
+					return "translate(" + d.x + "," + d.y + ")"; });
+		//
+
+		// adds the circle to the node
+		node2.append("circle")
+			.attr("r", 10);
+
+		// adds the text to the node
+		node2.append("a")
+			//.attr("style", "background-color: blue;") // width: 90%; height: 90%;
+			//.attr('href', 'https://d3js.org')
+			.attr('xlink:href', function(d) {
+				return d.properties_link || "https://d3js.org";
+			}).attr('target', '_blank')
+			//.on("click", click)
+			.append("text") // "svg:a"
+				.attr("dy", ".35em")
+				.attr("x", 0)
+				.attr("y", 25) //function(d) { return d.children ? -20 : 20; })
+				.style("text-anchor", "middle")
+				.text(function(d) { return d.data.name; });
+		//
+	} catch(error) {
+		// Do some error handling.
+		console.error(error);
+		if (error) throw error;
+	}
+})();
+
+console.log('ok3');
+
+
+
+
+/*
+function read_files(_target_path) {
+	let _out = {};
+	let _names = fs.readdirSync(_target_path)
+		//.filter(item => !item.isDirectory())
+		.filter(name => path.extname(name) === target_ext);
+	if (local_debug) console.log('_names:', _names);
+
+	let _content = fs.readdirSync(_target_path)
+		//.filter(item => !item.isDirectory())
+		.filter(name => path.extname(name) === target_ext)
+		.map(name => require(path.join(_target_path, name)));
+	if (local_debug) console.log('_content:', _content);
+
+	for (let i = 0; i < _names.length; i++) {
+		const id = _names[i].split('.')[0];
+		_out[id] = _content[i];
+	}
+	return _out;
+}
+*/
 
 </script>
 </body>
