@@ -115,25 +115,23 @@ console.log("my_JSON_object", my_JSON_object);
 // https://stackoverflow.com/a/21608670/8175291
 // https://stackoverflow.com/a/51603491/8175291
 // https://stackoverflow.com/a/49769027/8175291
-async function d3_json() {
-	await d3.json(target_path).then(function(data) { //{credentials: 'same-origin'}
+// https://stackoverflow.com/a/56539512/8175291
+(async function() {
+	try {
 		// Code from your callback goes here...
 		console.log('ok1');
-		//alert(data);
-		console.log(data);
-		/* for (var i = 0; i < data.length; i++) {
-			console.log(data[i].Name);
-			console.log(data[i].Age);
-		} */
-	})
-		.catch(function(error) {
+		const jsonResponse = await d3.json(target_path, {credentials: 'same-origin'});
+		console.log('jsonResponse', jsonResponse);
+		//let data = jsonResponse.data;
+		//console.log('data', data);
+		console.log('ok2');
+	} catch(error) {
 		// Do some error handling.
+		console.error(error);
 		if (error) throw error;
-	});
-	console.log('ok2');
-}
+	}
+})();
 
-let tmp = d3_json()
 console.log('ok3');
 
 function read_files(target_path) {
