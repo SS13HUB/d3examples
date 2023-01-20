@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+<meta name="color-scheme" content="dark light">
 <style> /* set the CSS */
 
 .node circle {
@@ -96,18 +98,43 @@ var margin = {
 var treemap = d3.tree()
 	.size([width, height]);
 
-//const base_path = process.cwd() || ;
-const target_path = 'https://raw.githubusercontent.com/SS13HUB/ss13-projects-data/master/data/json/000.json'; //'..\\submodules\\ss13-projects-data\\data\\json\\';
-console.log(target_path);
 
-d3.json(target_path, function(data) {
-	console.log(data);
-	console.log('ok');
-	/* for (var i = 0; i < data.length; i++) {
-		console.log(data[i].Name);
-		console.log(data[i].Age);
-	} */
-});
+let loc = window.location.pathname; //process.cwd() ||
+let base_dir = loc.substring(0, loc.lastIndexOf('/'));
+console.log("base_dir", base_dir);
+const target_path = '/submodules/ss13-projects-data/data/json/000.json'; //'https://raw.githubusercontent.com/SS13HUB/ss13-projects-data/master/data/json/000.json'; //
+console.log("target_path", target_path);
+
+// https://stackoverflow.com/a/16991355/8175291
+var request = new XMLHttpRequest();
+request.open("GET", target_path, false);
+request.send(null)
+var my_JSON_object = JSON.parse(request.responseText);
+console.log("my_JSON_object", my_JSON_object);
+
+// https://stackoverflow.com/a/21608670/8175291
+// https://stackoverflow.com/a/51603491/8175291
+// https://stackoverflow.com/a/49769027/8175291
+async function d3_json() {
+	await d3.json(target_path).then(function(data) { //{credentials: 'same-origin'}
+		// Code from your callback goes here...
+		console.log('ok1');
+		//alert(data);
+		console.log(data);
+		/* for (var i = 0; i < data.length; i++) {
+			console.log(data[i].Name);
+			console.log(data[i].Age);
+		} */
+	})
+		.catch(function(error) {
+		// Do some error handling.
+		if (error) throw error;
+	});
+	console.log('ok2');
+}
+
+let tmp = d3_json()
+console.log('ok3');
 
 function read_files(target_path) {
 	let _out = {};
@@ -129,7 +156,7 @@ function read_files(target_path) {
 	return _out;
 }
 
-//	assigns the data to a hierarchy using parent-child relationships
+// assigns the data to a hierarchy using parent-child relationships
 var nodes = d3.hierarchy(treeData);
 
 // maps the node data to the tree layout
