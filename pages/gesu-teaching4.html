@@ -5,7 +5,7 @@
 <style> /* set the CSS */
 
 .node circle {
-	fill: #fff;
+	fill: lightblue;
 	stroke: steelblue;
 	stroke-width: 3px;
 }
@@ -14,45 +14,54 @@
 
 .node a { font: 12px sans-serif; }
 
+/*
 .node--internal text {
 	text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
 }
-
 .node--internal a {
 	text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
 }
+*/
 
 .link {
 	fill: none;
-	stroke: #ccc;
+	stroke: gray;
 	stroke-width: 2px;
 }
 
-a:link {
-	color: green;
+.visited {
+	color: lightblue;
 	background-color: transparent;
 	text-decoration: none;
-	fill: blue;
+	fill: lightblue;
+}
+
+a:link {
+	color: lightseagreen;
+	background-color: transparent;
+	text-decoration: none;
+	fill: lightseagreen;
 }
 
 a:visited {
-	color: pink;
+	color: lightblue;
 	background-color: transparent;
 	text-decoration: none;
-	fill: blue;
+	fill: lightblue;
 }
 
 a:hover {
-	color: red;
+	color: blue;
 	background-color: transparent;
 	text-decoration: underline;
 	fill: blue;
 }
 
 a:active {
-	color: yellow;
+	color: blue;
 	background-color: transparent;
 	text-decoration: underline;
+	fill: blue;
 }
 
 .mainsvg {
@@ -153,7 +162,7 @@ node.append("circle")
 
 // adds the text to the node
 node.append("a")
-	//.attr("style", "background-color: blue;") // width: 90%; height: 90%;
+	//.attr("style", "background-color: lightblue;") // width: 90%; height: 90%;
 	//.attr('href', 'https://d3js.org')
 	.attr('xlink:href', function(d) {
 		return d.properties_link || "https://d3js.org";
@@ -177,7 +186,10 @@ const target_file1 = '0000';
 const target_path1 = target_dir + target_file1 + '.json';
 const target_file2 = '0001';
 const target_path2 = target_dir + target_file2 + '.json';
+const target_path3 = target_dir + 'merged/_fancy.json';
 console.log("target_path1", target_path1);
+console.log("target_path2", target_path2);
+console.log("target_path3", target_path3);
 
 // https://stackoverflow.com/a/16991355/8175291
 /*
@@ -200,6 +212,9 @@ console.log("my_JSON_object", my_JSON_object);
 		console.log('jsonResponse1:\n', target_file1, jsonResponse1);
 		const jsonResponse2 = await d3.json(target_path2, {credentials: 'same-origin'});
 		console.log('jsonResponse2:\n', target_file2, jsonResponse2);
+		const jsonResponse3 = await d3.json(target_path3, {credentials: 'same-origin'});
+		console.log('jsonResponse3:\n', jsonResponse3);
+
 		const totalJson = [jsonResponse1, jsonResponse2]; //Object.assign(); // jsonResponse1 + jsonResponse2;
 		console.log('totalJson:\n', totalJson);
 		//let data = jsonResponse.data;
@@ -207,30 +222,40 @@ console.log("my_JSON_object", my_JSON_object);
 		console.log('ok2');
 
 		// assigns the data to a hierarchy using parent-child relationships
-		//var nodes2 = d3.hierarchy(totalJson);
-		//var nodes2 = d3.stratify()(totalJson);
-		var nodes2 = d3.stratify()([
-			{id: "0000", name: "Chaos"},
+		//var dataStructure2 = d3.hierarchy(totalJson);
+		//var dataStructure2 = d3.stratify()(totalJson);
+		/*var dataStructure2 = d3.stratify()([
+			{id: "0000", parentId: null,   name: "Chaos"},
 			{id: "0001", parentId: "0000", name: "Gaia"},
 			{id: "0002", parentId: "0000", name: "Eros"},
 			{id: "0003", parentId: "0000", name: "Erebus"},
 			{id: "0004", parentId: "0000", name: "Tartarus"},
 			{id: "0005", parentId: "0001", name: "Mountains"},
 			{id: "0006", parentId: "0001", name: "Pontus"},
-			{id: "0007", parentId: "0001", name: "Uranus"}
-		]);
-		/*var nodes2 = d3.hierarchy(totalJson);
-		nodes2.children(function(d) {
-			return d.relations[0].name;
+			{id: "0007", parentId: ["0001", "0002"], name: "Uranus"}
+		]);*/
+		//var dataStructure2 = d3.stratify()(jsonResponse3);
+		//var dataStructure2 = d3.hierarchy(totalJson);
+		/*dataStructure2.children(function(d) {
+			return d.parent.name;
 		});*/
 		// https://stackoverflow.com/a/69235346/8175291
-		/*let nodes2 = d3.hierarchy(totalJson, function(d) {
+		/*let dataStructure2 = d3.hierarchy(totalJson, function(d) {
 			if(typeof d == "object")
 			return Object.keys(d).map((k) => { console.log(d[k]); return d[k]; });
 		})*/
 
+
+		// https://stackoverflow.com/q/68672935/8175291
+		var dataStructure2 = d3
+			.stratify()
+			.id(function(d) {return d.name;})
+			.parentId(function(d) {return d.parent.name;})
+			(jsonResponse3);
+		//
+
 		// maps the node data to the tree layout
-		nodes2 = treemap(nodes2);
+		dataStructure2 = treemap(dataStructure2);
 
 		// append the svg obgect to the body of the page
 		// appends a 'group' element to 'svg'
@@ -248,7 +273,7 @@ console.log("my_JSON_object", my_JSON_object);
 
 		// adds the links between the nodes
 		var link = g.selectAll(".link")
-			.data( nodes2.descendants().slice(1) )
+			.data( dataStructure2.descendants().slice(1) )
 			.enter().append("path")
 				.attr("class", "link")
 				.attr("d", function(d) {
@@ -261,7 +286,7 @@ console.log("my_JSON_object", my_JSON_object);
 
 		// adds each node as a group
 		var node2 = g.selectAll(".node")
-			.data( nodes2.descendants() )
+			.data( dataStructure2.descendants() )
 			.enter().append("g")
 				.attr("class", function(d) {
 					return "node" +
@@ -276,7 +301,7 @@ console.log("my_JSON_object", my_JSON_object);
 
 		// adds the text to the node
 		node2.append("a")
-			//.attr("style", "background-color: blue;") // width: 90%; height: 90%;
+			//.attr("style", "background-color: lightblue;") // width: 90%; height: 90%;
 			//.attr('href', 'https://d3js.org')
 			.attr('xlink:href', function(d) {
 				return d.properties_link || "https://d3js.org";
